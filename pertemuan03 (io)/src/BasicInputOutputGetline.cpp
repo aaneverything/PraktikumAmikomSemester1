@@ -2,6 +2,7 @@
 // Demo Mengggunakan Getline()
 #include <iostream>
 #include <string>
+#include <windows.h>
 
 using namespace std;
 int main()
@@ -11,7 +12,15 @@ int main()
     cout << "Jawab: ";
     getline(cin, nama);
 
-    cout << "Selama pagi "<< nama << " sayangkuuu";
+    string salam = "Selamat Pagi " + nama + " sayangkuuu";
+    int len = salam.length();
+
+    for (int i = 0; i < len; ++i)
+    {
+        cout << salam[i];
+        Sleep(100);
+    }
+
     cin.get();
     return 0;
 }
