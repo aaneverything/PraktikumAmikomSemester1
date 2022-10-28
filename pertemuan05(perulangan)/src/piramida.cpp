@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int barisPiramida;
+    cout << "Tinggi baris : ";
+    cin >> barisPiramida;
+    for (int i = barisPiramida; i > 0; i--)
+    {
+        for (int j = 1; j <= barisPiramida; j++)
+        {
+            if( j >= i){
+                cout << "*";
+
+            } else{
+                cout << " ";
+            }
+            
+        }
+        cout << endl;
+    }
+    return 0;
+}
