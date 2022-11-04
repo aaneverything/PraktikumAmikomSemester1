@@ -34,7 +34,7 @@ int main()
             freq = 493.88;
             break;
         }
-        Beep(freq, 500);
+        Beep(freq, 1500);
     }
 
     return 0;
