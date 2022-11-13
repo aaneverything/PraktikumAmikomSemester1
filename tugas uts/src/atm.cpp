@@ -41,7 +41,7 @@ int main()
                 case 1:
                     system("cls");
                     Sleep(500);
-                    cout << "Balance : Rp.";
+                    cout << "\nBalance : Rp.";
                     cout << balance << endl;
                     break;
                 case 2:
@@ -82,7 +82,7 @@ int main()
                             Sleep(500);
                             system("cls");
                             cout << "Withdraw successfully!" << endl;
-                            cout << "Total Balance : ";
+                            cout << "\nTotal Balance : ";
                             cout << balance << endl;
                         }
                     }
