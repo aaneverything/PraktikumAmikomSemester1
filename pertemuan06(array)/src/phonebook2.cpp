@@ -1,26 +1,34 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 using namespace std;
 
+// membuat struktur data untuk PhoneBook
+struct PhoneBook
+{
+    string phone;
+    string name;
+    string address;
+};
+
 int main()
 {
-    const int SIZE = 50; // ukuran max
-    int count = 0;       // jumlah data tersimpan
-    string phones[SIZE];
-    string names[SIZE];
-    string addresses[SIZE];
+    vector<PhoneBook> pb;
 
     // struktur menu:
     string menu;
+
     while (true)
     {
+
         system("cls");
         cout << "Phonebook\n";
         cout << "[1] Insert\n";
         cout << "[2] Show\n";
-        cout << "[3] Exit\n";
+        cout << "[3] FInd\n";
+        cout << "[4] Exit\n";
         cout << "Select: ";
         getline(cin, menu);
         switch (menu[0])
@@ -29,6 +37,7 @@ int main()
             // input:
             while (true)
             {
+
                 string ip, in, ia;
                 system("cls");
 
@@ -43,13 +52,8 @@ int main()
                 cout << "Addr.: ";
                 getline(cin, ia);
 
-                // simpan ke array:
-                phones[count] = ip;
-                names[count] = in;
-                addresses[count] = ia;
-
-                // update jumlah data / index:
-                ++count;
+                // simpan ke vector:
+                pb.push_back({ip, in, ia});
             }
             break;
         case '2':
@@ -59,17 +63,50 @@ int main()
             cout << setw(14) << "PHONE NUM" << setw(25) << "NAME" << setw(31) << "ADRRESS";
             cout << "\n----------------------------------------------------------------------\n";
 
-            for (int i = 0; i < count; ++i)
+            // for each 'p' dalam 'pb'
+            // note: pb adalah vector (jumlahnya banyak)
+            for (auto p : pb)
             {
-                cout << setw(14) << phones[i];
-                cout << setw(25) << names[i];
-                cout << setw(31) << addresses[i];
+                cout << setw(14) << p.phone;
+                cout << setw(25) << p.name;
+                cout << setw(31) << p.address;
                 cout << endl;
             }
             cout << "----------------------------------------------------------------------\n";
             system("pause");
             break;
         case '3':
+        {
+            string nsearch;
+            int idx_found = pb.size();
+            system("cls");
+            cout << "Search \n";
+            cout << "Enter Name: ";
+            getline(cin, nsearch);
+            for (int i = 0; i < pb.size(); i++)
+            {
+                if (nsearch == pb[i].name)
+                {
+                    idx_found = i;
+                    break;
+                }
+            }
+            if (idx_found == pb.size())
+            {
+                cout << "Not Found\n\n";
+            }
+            else
+            {
+                cout << "Phone :" << pb[idx_found].phone << endl;
+                cout << "Name :" << pb[idx_found].name << endl;
+                cout << "Address :" << pb[idx_found].address << endl;
+            }
+            cout << "Result: \n";
+            system("pause");
+            break;
+        }
+
+        case '4':
             return 0;
         }
     }

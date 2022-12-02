@@ -58,7 +58,7 @@ int main()
                     system("cls");
                     break;
                 case 3:
-                    if (balance == 10)
+                    if (balance == 0)
                     {
                         system("cls");
                         cout << "Balance is not sufficient" << endl;
