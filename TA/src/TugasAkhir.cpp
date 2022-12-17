@@ -91,6 +91,7 @@ void catatan()
     }
 }
 
+// Fungsi Menmapilkan Total Pemasukan
 int totalPemasukan()
 {
     int nominal = 0;
@@ -103,6 +104,7 @@ int totalPemasukan()
     return nominal;
 }
 
+// Fungsi Menmapilkan Total Pengeluaran
 int totalPengeluaran()
 {
     int nominal = 0;
@@ -114,6 +116,7 @@ int totalPengeluaran()
     }
     return nominal;
 }
+
 // Fungsi Rekap
 void rekap()
 {
@@ -148,15 +151,8 @@ void rekap()
 void detailPemasukan()
 {
     system("cls");
-    int nominal = 0;
-    for (auto in : dataIn)
-    {
-
-        nominal = stoi(in.nominal);
-        nominal = nominal + nominal;
-    }
     cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << nominal;
+    cout << setw(20) << "Total Pemasukan : " << totalPemasukan();
     cout << "\n------------------------------------------------------\n";
     for (auto in : dataIn)
     {
@@ -171,15 +167,8 @@ void detailPemasukan()
 void detailPengeluaran()
 {
     system("cls");
-    int nominal = 0;
-    for (auto in : dataOut)
-    {
-
-        nominal = stoi(in.harga);
-        nominal = nominal + nominal;
-    }
     cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pengeluaran : " << nominal;
+    cout << setw(20) << "Total Pengeluaran : " << totalPengeluaran();
     cout << "\n------------------------------------------------------\n";
     for (auto out : dataOut)
     {
