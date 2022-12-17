@@ -3,6 +3,7 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
+#include "cursorx.h"
 
 using namespace std;
 
@@ -38,12 +39,21 @@ vector<DataPemasukan> dataIn;
 // Fungsi Utama
 int main()
 {
+    set_color(7, 3);
     fistLogin();
     int input;
-    cout << "[1]. Rekap" << endl;
-    cout << "[2]. Tambah Catatan" << endl;
-    cout << "[3]. Keluar Program" << endl;
-    cout << "Pilih : ";
+    set_color(7, 2);
+
+    set_xy(48, 13);
+    cout << "|   [1]. Rekap              |" << endl;
+    set_xy(48, 14);
+    cout << "|   [2]. Tambah Catatan     |" << endl;
+    set_xy(48, 15);
+    cout << "|   [3]. Keluar Program     |" << endl;
+    set_xy(48, 16);
+    cout << "|                           |";
+    set_xy(48, 17);
+    cout << "|   Pilih :                 |\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     cin >> input;
     switch (input)
     {
@@ -280,7 +290,13 @@ void fistLogin()
     if (first == true)
     {
         system("cls");
-        cout << "Selamat Datang" << endl;
+        set_xy(48, 11);
+        set_color(7, 4);
+        cout << "|      Selamat Datang       |" << endl;
+        set_xy(48, 12);
+        set_color(7, 2);
+
+        cout << "|                           |" << endl;
         first = false;
     }
     else
