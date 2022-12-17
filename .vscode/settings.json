@@ -5,7 +5,8 @@
     "deque": "cpp",
     "string": "cpp",
     "vector": "cpp",
-    "iomanip": "cpp"
+    "iomanip": "cpp",
+    "iosfwd": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

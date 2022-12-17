@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
 
@@ -15,23 +16,22 @@ void savePengeluaran(string nama, string kategori, string harga);
 void savePemasukan(string nominal, string kategori);
 void detailPemasukan();
 void detailPengeluaran();
-
-bool first = true;
 void fistLogin();
+int totalPemasukan();
+int totalPengeluaran();
 
+// Vector Data Disimpan
 struct DataPengeluaran
 {
     string nama;
     string kategori;
     string harga;
 };
-
 struct DataPemasukan
 {
     string nominal;
     string kategori;
 };
-
 vector<DataPengeluaran> dataOut;
 vector<DataPemasukan> dataIn;
 
@@ -91,15 +91,42 @@ void catatan()
     }
 }
 
+int totalPemasukan()
+{
+    int nominal = 0;
+    for (auto in : dataIn)
+    {
+
+        nominal = stoi(in.nominal);
+        nominal = nominal + nominal;
+    }
+    return nominal;
+}
+
+int totalPengeluaran()
+{
+    int nominal = 0;
+    for (auto in : dataOut)
+    {
+
+        nominal = stoi(in.harga);
+        nominal = nominal + nominal;
+    }
+    return nominal;
+}
 // Fungsi Rekap
 void rekap()
 {
     system("cls");
+
     cout << "------------------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << setw(15) << " | " << setw(20) << "Total Pengeluaran : ";
+    cout << setw(20) << "Total Pemasukan : " << totalPemasukan()
+         << setw(15) << " | " << setw(20) << "Total Pengeluaran : " << totalPengeluaran();
     cout << "\n------------------------------------------------------------------\n";
-    cout << "[1]. Detail Pemasukan" << endl;
-    cout << "[2]. Detail Pengeluaran" << endl;
+    cout << "[1]. Rincian Pemasukan" << endl;
+    cout << "[2]. Rincian Pengeluaran" << endl;
+    cout << "[3]. Kembali" << endl;
+
     cout << "Pilih : ";
     int input;
     cin >> input;
@@ -111,14 +138,25 @@ void rekap()
     {
         detailPengeluaran();
     }
+    if (input == 3)
+    {
+        main();
+    }
 }
 
 // Fungsi Menampilkan Detail Total Pemasukan
 void detailPemasukan()
 {
     system("cls");
+    int nominal = 0;
+    for (auto in : dataIn)
+    {
+
+        nominal = stoi(in.nominal);
+        nominal = nominal + nominal;
+    }
     cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : ";
+    cout << setw(20) << "Total Pemasukan : " << nominal;
     cout << "\n------------------------------------------------------\n";
     for (auto in : dataIn)
     {
@@ -132,6 +170,17 @@ void detailPemasukan()
 // Fungsi Menampilakan Detail Total Pengeluaran
 void detailPengeluaran()
 {
+    system("cls");
+    int nominal = 0;
+    for (auto in : dataOut)
+    {
+
+        nominal = stoi(in.harga);
+        nominal = nominal + nominal;
+    }
+    cout << "------------------------------------------------------\n";
+    cout << setw(20) << "Total Pengeluaran : " << nominal;
+    cout << "\n------------------------------------------------------\n";
     for (auto out : dataOut)
     {
         cout << setw(14) << out.nama;
@@ -139,6 +188,7 @@ void detailPengeluaran()
         cout << setw(31) << out.harga;
         cout << endl;
     }
+    ulang("main", "Kembali ke menu? (y/n): ");
 }
 
 // Fungsi Tambah Pengeluaran
@@ -173,6 +223,14 @@ void tambahPemasukan()
     cout << "Pilih : ";
     string kategori;
     cin >> kategori;
+    if (kategori == "1")
+    {
+        kategori = "Pekerjaan";
+    }
+    if (kategori == "2")
+    {
+        kategori = "Investasi";
+    }
     savePemasukan(nominal, kategori);
 }
 
@@ -227,6 +285,7 @@ void ulang(string menu, string str)
 }
 
 // Fungsi Untuk Mengecek User Apakah Pertama Kali Login
+bool first = true;
 void fistLogin()
 {
     if (first == true)
