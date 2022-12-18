@@ -8,7 +8,6 @@
 
 using namespace std;
 
-// Prototype
 void ulang(string menu, string atr);
 void catatan();
 void rekap();
@@ -19,11 +18,9 @@ void savePemasukan(string nominal, string kategori, string date);
 void detailPemasukan();
 void detailPengeluaran();
 void fistLogin();
-int totalPemasukan();
-int totalPengeluaran();
 string date();
+int totalNominal(string total);
 
-// Vector Data Disimpan
 struct DataPengeluaran
 {
     string nama;
@@ -43,13 +40,23 @@ vector<DataPemasukan> dataIn;
 // Fungsi Utama
 int main()
 {
+    set_color(15, 6);
+
     fistLogin();
     int input;
-    cout << "|   [1]. Rekap              |" << endl;
-    cout << "|   [2]. Tambah Catatan     |" << endl;
-    cout << "|   [3]. Keluar Program     |" << endl;
-    cout << "|                           |" << endl;
-    cout << "|   Pilih :                 |\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+    set_color(15, 13);
+    set_xy(40, 10);
+    cout << "       |   [1]. Rekap              |       " << endl;
+    set_xy(40, 11);
+    cout << "       |   [2]. Tambah Catatan     |       " << endl;
+    set_xy(40, 12);
+    cout << "       |   [3]. Keluar Program     |       " << endl;
+    set_xy(40, 13);
+    cout << "       |                           |       " << endl;
+    set_xy(40, 14);
+    cout << "       |   Pilih :                 |       " << endl;
+    set_xy(40, 15);
+    cout << "                                           ";
     cin >> input;
     switch (input)
     {
@@ -97,30 +104,32 @@ void catatan()
     }
 }
 
-// Fungsi Menamapilkan Total Pemasukan
-int totalPemasukan()
+// Fungsi Menamapilkan Total nominal
+// Arg  : string total -> total yan ingin ditampilkan (pemasukan/pengeluaran)
+int totalNominal(string total)
 {
-    int nominal = 0;
-    for (auto in : dataIn)
+    if (total == "pemasukan")
     {
+        int nominal = 0;
+        for (auto in : dataIn)
+        {
 
-        nominal = stoi(in.nominal);
-        nominal = +nominal;
+            int harga = stoi(in.nominal);
+            nominal += harga;
+        }
+        return nominal;
     }
-    return nominal;
-}
-
-// Fungsi Menmapilkan Total Pengeluaran
-int totalPengeluaran()
-{
-    int nominal = 0;
-    for (auto in : dataOut)
+    else if (total == "pengeluaran")
     {
-
-        nominal = stoi(in.harga);
-        nominal = +nominal;
+        int nominal = 0;
+        for (auto out : dataOut)
+        {
+            int harga = stoi(out.harga);
+            nominal += harga;
+        }
+        return nominal;
     }
-    return nominal;
+    return 0;
 }
 
 // Fungsi Rekap
@@ -129,8 +138,7 @@ void rekap()
     system("cls");
 
     cout << "------------------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << totalPemasukan()
-         << setw(15) << " | " << setw(20) << "Total Pengeluaran : " << totalPengeluaran();
+    cout << setw(20) << "Total Pemasukan : " << totalNominal("pemasukan") << setw(15) << " | " << setw(20) << "Total Pengeluaran : " << totalNominal("pengeluaran");
     cout << "\n------------------------------------------------------------------\n";
     cout << "[1]. Rincian Pemasukan" << endl;
     cout << "[2]. Rincian Pengeluaran" << endl;
@@ -158,7 +166,7 @@ void detailPemasukan()
 {
     system("cls");
     cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << totalPemasukan();
+    cout << setw(20) << "Total Pemasukan : " << totalNominal("pemasukan");
     cout << "\n------------------------------------------------------\n";
     for (auto in : dataIn)
     {
@@ -176,7 +184,7 @@ void detailPengeluaran()
 {
     system("cls");
     cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pengeluaran : " << totalPengeluaran();
+    cout << setw(20) << "Total Pengeluaran : " << totalNominal("pengeluaran");
     cout << "\n------------------------------------------------------\n";
     for (auto out : dataOut)
     {
@@ -187,33 +195,6 @@ void detailPengeluaran()
         cout << endl;
     }
     ulang("main", "Kembali ke menu? (y/n): ");
-}
-
-// Fungsi Tambah Pengeluaran
-void tambahPengeluaran()
-{
-    system("cls");
-    cout << "Nama: ";
-    string nama;
-    cin >> nama;
-    cout << "Kategori: " << endl;
-    cout << "[1]. Makanan" << endl;
-    cout << "[2]. Pakaian" << endl;
-    cout << "Pilih : ";
-    string kategori;
-    cin >> kategori;
-    if (kategori == "1")
-    {
-        kategori = "Makanan";
-    }
-    if (kategori == "2")
-    {
-        kategori = "Pakaian";
-    }
-    cout << "Harga : ";
-    string harga;
-    cin >> harga;
-    savePengeluaran(nama, kategori, harga, date());
 }
 
 // Fungsi Tambah Pemasukan
@@ -240,6 +221,49 @@ void tambahPemasukan()
     savePemasukan(nominal, kategori, date());
 }
 
+// Fungsi Tambah Pengeluaran
+void tambahPengeluaran()
+{
+    system("cls");
+    cout << "Nama: ";
+    string nama;
+    cin >> nama;
+    cout << "Kategori: " << endl;
+    cout << "[1]. Makanan" << endl;
+    cout << "[2]. Pakaian" << endl;
+    cout << "[3]. Lainnya" << endl;
+    cout << "Pilih : ";
+    string kategori;
+    cin >> kategori;
+    if (kategori == "1")
+    {
+        kategori = "Makanan";
+    }
+    if (kategori == "2")
+    {
+        kategori = "Pakaian";
+    }
+    if (kategori == "3")
+    {
+        kategori = "Lain-Lain";
+    }
+    cout << "Harga : ";
+    string harga;
+    cin >> harga;
+    savePengeluaran(nama, kategori, harga, date());
+}
+
+// Fungsi Save Pemasukan
+// Arg  :   - string nominal -> jumlah jumlah nominal pemasukan
+//          - string kategori -> kategori pemasukan
+//          - string date -> tanggal waktu save pemasukan
+void savePemasukan(string nominal, string kategori, string date)
+{
+    // Push data ke vector
+    dataIn.push_back({nominal, kategori, date});
+    ulang("pemasukan", "Ulang?(y/n) : ");
+}
+
 // Fungsi Save Pengeluaran
 // Arg  :   - string nama -> nama pengeluaran
 //          - string kategori -> kategori pengeluaran
@@ -247,20 +271,14 @@ void tambahPemasukan()
 //          - string date -> tanggal waktu save pengeluaran
 void savePengeluaran(string nama, string kategori, string harga, string date)
 {
-    // vector<DataPengeluaran> dataOut;
+    // Push data ke vector
     dataOut.push_back({nama, kategori, harga, date});
     ulang("pengeluaran", "Ulang?(y/n) : ");
 }
 
-// Fungsi Save Pemasukan
-void savePemasukan(string nominal, string kategori, string date)
-{
-    // vector<DataPemasukan> dataIn;
-    dataIn.push_back({nominal, kategori, date});
-    ulang("pemasukan", "Ulang?(y/n) : ");
-}
-
 // Fungsi Untuk Mengecek Apakah User Ingin Mengulangi
+// Arg  : string menu -> untuk ulang ke fungsi pengeluaran/pemasukan/menu
+//      : string str -> kalimat yang ingin ditampilkan
 void ulang(string menu, string str)
 {
     cout << str;
@@ -301,15 +319,25 @@ void fistLogin()
     if (first == true)
     {
         system("cls");
-        cout << "|      Selamat Datang       |" << endl;
-        cout << "|                           |" << endl;
+        set_color(15, 13);
+        set_xy(40, 7);
+        cout << "                                           " << endl;
+        set_xy(40, 8);
+        cout << "       |      Selamat Datang       |       " << endl;
+        set_xy(40, 9);
+        cout << "       |                           |       " << endl;
         first = false;
     }
     else
     {
         system("cls");
-        cout << "Silahkan Pilih Menu Yang Tersedia" << endl;
-        cout << "|                           |" << endl;
+        set_color(15, 13);
+        set_xy(40, 7);
+        cout << "                                           " << endl;
+        set_xy(40, 8);
+        cout << "     Silahkan Pilih Menu Yang Tersedia     " << endl;
+        set_xy(40, 9);
+        cout << "       |                           |      " << endl;
     }
 }
 

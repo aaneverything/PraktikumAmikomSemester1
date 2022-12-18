@@ -6,7 +6,8 @@
     "string": "cpp",
     "vector": "cpp",
     "iomanip": "cpp",
-    "iosfwd": "cpp"
+    "iosfwd": "cpp",
+    "ctime": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
