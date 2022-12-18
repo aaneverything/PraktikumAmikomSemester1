@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <sstream>
 #include "cursorx.h"
+#include <ctime>
 
 using namespace std;
 
@@ -13,13 +14,14 @@ void catatan();
 void rekap();
 void tambahPengeluaran();
 void tambahPemasukan();
-void savePengeluaran(string nama, string kategori, string harga);
-void savePemasukan(string nominal, string kategori);
+void savePengeluaran(string nama, string kategori, string harga, string date);
+void savePemasukan(string nominal, string kategori, string date);
 void detailPemasukan();
 void detailPengeluaran();
 void fistLogin();
 int totalPemasukan();
 int totalPengeluaran();
+string date();
 
 // Vector Data Disimpan
 struct DataPengeluaran
@@ -27,11 +29,13 @@ struct DataPengeluaran
     string nama;
     string kategori;
     string harga;
+    string date;
 };
 struct DataPemasukan
 {
     string nominal;
     string kategori;
+    string date;
 };
 vector<DataPengeluaran> dataOut;
 vector<DataPemasukan> dataIn;
@@ -39,20 +43,12 @@ vector<DataPemasukan> dataIn;
 // Fungsi Utama
 int main()
 {
-    set_color(7, 3);
     fistLogin();
     int input;
-    set_color(7, 2);
-
-    set_xy(48, 13);
     cout << "|   [1]. Rekap              |" << endl;
-    set_xy(48, 14);
     cout << "|   [2]. Tambah Catatan     |" << endl;
-    set_xy(48, 15);
     cout << "|   [3]. Keluar Program     |" << endl;
-    set_xy(48, 16);
-    cout << "|                           |";
-    set_xy(48, 17);
+    cout << "|                           |" << endl;
     cout << "|   Pilih :                 |\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
     cin >> input;
     switch (input)
@@ -168,6 +164,8 @@ void detailPemasukan()
     {
         cout << setw(14) << in.nominal;
         cout << setw(25) << in.kategori;
+        cout << setw(30) << in.date;
+
         cout << endl;
     }
     ulang("main", "Kembali ke menu? (y/n): ");
@@ -185,6 +183,7 @@ void detailPengeluaran()
         cout << setw(14) << out.nama;
         cout << setw(25) << out.kategori;
         cout << setw(31) << out.harga;
+        cout << setw(36) << out.date;
         cout << endl;
     }
     ulang("main", "Kembali ke menu? (y/n): ");
@@ -203,10 +202,18 @@ void tambahPengeluaran()
     cout << "Pilih : ";
     string kategori;
     cin >> kategori;
+    if (kategori == "1")
+    {
+        kategori = "Makanan";
+    }
+    if (kategori == "2")
+    {
+        kategori = "Pakaian";
+    }
     cout << "Harga : ";
     string harga;
     cin >> harga;
-    savePengeluaran(nama, kategori, harga);
+    savePengeluaran(nama, kategori, harga, date());
 }
 
 // Fungsi Tambah Pemasukan
@@ -230,22 +237,22 @@ void tambahPemasukan()
     {
         kategori = "Investasi";
     }
-    savePemasukan(nominal, kategori);
+    savePemasukan(nominal, kategori, date());
 }
 
 // Fungsi Save Pengeluaran
-void savePengeluaran(string nama, string kategori, string harga)
+void savePengeluaran(string nama, string kategori, string harga, string date)
 {
     // vector<DataPengeluaran> dataOut;
-    dataOut.push_back({nama, kategori, harga});
+    dataOut.push_back({nama, kategori, harga, date});
     ulang("pengeluaran", "Ulang?(y/n) : ");
 }
 
 // Fungsi Save Pemasukan
-void savePemasukan(string nominal, string kategori)
+void savePemasukan(string nominal, string kategori, string date)
 {
     // vector<DataPemasukan> dataIn;
-    dataIn.push_back({nominal, kategori});
+    dataIn.push_back({nominal, kategori, date});
     ulang("pemasukan", "Ulang?(y/n) : ");
 }
 
@@ -290,12 +297,7 @@ void fistLogin()
     if (first == true)
     {
         system("cls");
-        set_xy(48, 11);
-        set_color(7, 4);
         cout << "|      Selamat Datang       |" << endl;
-        set_xy(48, 12);
-        set_color(7, 2);
-
         cout << "|                           |" << endl;
         first = false;
     }
@@ -303,5 +305,14 @@ void fistLogin()
     {
         system("cls");
         cout << "Silahkan Pilih Menu Yang Tersedia" << endl;
+        cout << "|                           |" << endl;
     }
+}
+
+string date()
+{
+    time_t ttime = time(0);
+    tm *local_time = localtime(&ttime);
+    string date = to_string(local_time->tm_hour) + ":" + to_string(local_time->tm_min) + " " + to_string(local_time->tm_mday) + "-" + to_string(1 + local_time->tm_mon) + "-" + to_string(1900 + local_time->tm_year);
+    return date;
 }
