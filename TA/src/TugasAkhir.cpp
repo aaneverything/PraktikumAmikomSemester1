@@ -225,7 +225,7 @@ void tambahPemasukan()
 void tambahPengeluaran()
 {
     system("cls");
-    cout << "Nama: ";
+    cout << "Nama    : ";
     string nama;
     cin >> nama;
     cout << "Kategori: " << endl;
@@ -261,6 +261,8 @@ void savePemasukan(string nominal, string kategori, string date)
 {
     // Push data ke vector
     dataIn.push_back({nominal, kategori, date});
+    Sleep(3000);
+    cout << "sukses disimpan";
     ulang("pemasukan", "Ulang?(y/n) : ");
 }
 
