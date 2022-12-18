@@ -97,7 +97,7 @@ void catatan()
     }
 }
 
-// Fungsi Menmapilkan Total Pemasukan
+// Fungsi Menamapilkan Total Pemasukan
 int totalPemasukan()
 {
     int nominal = 0;
@@ -105,7 +105,7 @@ int totalPemasukan()
     {
 
         nominal = stoi(in.nominal);
-        nominal = nominal + nominal;
+        nominal = +nominal;
     }
     return nominal;
 }
@@ -118,7 +118,7 @@ int totalPengeluaran()
     {
 
         nominal = stoi(in.harga);
-        nominal = nominal + nominal;
+        nominal = +nominal;
     }
     return nominal;
 }
@@ -241,6 +241,10 @@ void tambahPemasukan()
 }
 
 // Fungsi Save Pengeluaran
+// Arg  :   - string nama -> nama pengeluaran
+//          - string kategori -> kategori pengeluaran
+//          - string harga -> nominal pengeluaran
+//          - string date -> tanggal waktu save pengeluaran
 void savePengeluaran(string nama, string kategori, string harga, string date)
 {
     // vector<DataPengeluaran> dataOut;
