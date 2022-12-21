@@ -20,6 +20,7 @@ void detailPengeluaran();
 void fistLogin();
 string date();
 int totalNominal(string total);
+void searchKategori(string str);
 
 struct DataPengeluaran
 {
@@ -349,4 +350,38 @@ string date()
     tm *local_time = localtime(&ttime);
     string date = to_string(local_time->tm_hour) + ":" + to_string(local_time->tm_min) + " " + to_string(local_time->tm_mday) + "-" + to_string(1 + local_time->tm_mon) + "-" + to_string(1900 + local_time->tm_year);
     return date;
+}
+
+// Fungsi untuk mencari data berdasarkan kategori
+// Arg  : string str -> data yang ingin dicari "Pemasukan | Pengeluaran"
+void searchKategori(string str)
+{
+    cout << "Input Kategori : ";
+    string kategori;
+    cin >> kategori;
+    if (str == "Pemasukan")
+    {
+        for (int i = 0; i < dataIn.size(); i++)
+        {
+            if (kategori == dataIn[i].kategori)
+            {
+                cout << dataIn[i].kategori << endl;
+                cout << dataIn[i].nominal << endl;
+                cout << dataIn[i].date << endl;
+            }
+        }
+    }
+    if (str == "Pengeluaran")
+    {
+        for (int i = 0; i < dataOut.size(); i++)
+        {
+            if (kategori == dataIn[i].kategori)
+            {
+                cout << dataOut[i].nama << endl;
+                cout << dataOut[i].harga << endl;
+                cout << dataOut[i].kategori << endl;
+                cout << dataOut[i].date << endl;
+            }
+        }
+    }
 }
