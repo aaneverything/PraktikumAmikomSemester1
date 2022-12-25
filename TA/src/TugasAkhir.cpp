@@ -1,13 +1,5 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iomanip>
-#include <sstream>
+#include "menu.cpp"
 #include "cursorx.h"
-#include <ctime>
-
-using namespace std;
-
 void ulang(string menu, string atr);
 void catatan();
 void rekap();
@@ -17,11 +9,11 @@ void savePengeluaran(string nama, string kategori, string harga, string date);
 void savePemasukan(string nominal, string kategori, string date);
 void detailPemasukan();
 void detailPengeluaran();
-void fistLogin();
+void firstLogin();
+string randomQuote();
 string date();
 int totalNominal(string total);
 void searchKategori(string str);
-
 struct DataPengeluaran
 {
     string nama;
@@ -41,35 +33,22 @@ vector<DataPemasukan> dataIn;
 // Fungsi Utama
 int main()
 {
-    set_color(15, 6);
-
-    fistLogin();
+    Menu menu;
+    firstLogin();
     int input;
-    set_color(15, 13);
-    set_xy(40, 10);
-    cout << "       |   [1]. Rekap              |       " << endl;
-    set_xy(40, 11);
-    cout << "       |   [2]. Tambah Catatan     |       " << endl;
-    set_xy(40, 12);
-    cout << "       |   [3]. Keluar Program     |       " << endl;
-    set_xy(40, 13);
-    cout << "       |                           |       " << endl;
-    set_xy(40, 14);
-    cout << "       |   Pilih :                 |       " << endl;
-    set_xy(40, 15);
-    cout << "                                           ";
-    cin >> input;
+    menu.set_xy(21, 12);
+    menu.set_color(menu.RED);
+    input = menu.Gmenu("Liat Catatan", "Tambah Pemasukan", "Tambah Pengeluaran");
     switch (input)
     {
-    case 1:
+    case 0:
         rekap();
         break;
+    case 1:
+        tambahPemasukan();
+        break;
     case 2:
-        catatan();
-        break;
-    case 3:
-        break;
-
+        tambahPengeluaran();
     default:
         cout << "Menu tidak ada";
     }
@@ -317,31 +296,41 @@ void ulang(string menu, string str)
 
 // Fungsi Untuk Mengecek User Apakah Pertama Kali Login
 bool first = true;
-void fistLogin()
+void firstLogin()
 {
+    Menu menu;
     if (first == true)
     {
         system("cls");
-        set_color(15, 13);
-        set_xy(40, 7);
-        cout << "                                           " << endl;
-        set_xy(40, 8);
-        cout << "       |      Selamat Datang       |       " << endl;
-        set_xy(40, 9);
-        cout << "       |                           |       " << endl;
+        set_xy(21, 10);
+        set_color(0, 12);
+        cout << "Selamat Datang" << endl;
+        set_xy(21, 16);
+        cout << "Gunakan Arrow Untuk Berpindah Menu" << endl;
         first = false;
     }
     else
     {
         system("cls");
-        set_color(15, 13);
-        set_xy(40, 7);
-        cout << "                                           " << endl;
-        set_xy(40, 8);
-        cout << "     Silahkan Pilih Menu Yang Tersedia     " << endl;
-        set_xy(40, 9);
-        cout << "       |                           |      " << endl;
+        set_xy(21, 10);
+        set_color(0, 12);
+        cout << "Selamat Datang" << endl;
+        set_xy(21, 16);
+        cout << randomQuote() << endl;
     }
+}
+
+string randomQuote()
+{
+    srand(time(NULL));
+    string text[4] = {
+        "Quote 1", 
+        "Quote 2", 
+        "Quote 3", 
+        "Quote 4"
+        };
+    int idx = rand() % 4;
+    return text[idx];
 }
 
 string date()
