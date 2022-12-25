@@ -3,17 +3,17 @@
 
 void ulang(string menu, string atr);
 void rekap();
+void firstLogin();
+void detailPemasukan();
+void detailPengeluaran();
 void tambahPengeluaran();
 void tambahPemasukan();
 void savePengeluaran(string nama, string kategori, string harga, string date);
 void savePemasukan(string nominal, string kategori, string date);
-void detailPemasukan();
-void detailPengeluaran();
-void firstLogin();
+void searchKategori(string str);
+int totalNominal(string total);
 string randomQuote();
 string date();
-int totalNominal(string total);
-void searchKategori(string str);
 
 struct DataPengeluaran
 {
@@ -50,12 +50,14 @@ int main()
         break;
     case 2:
         tambahPengeluaran();
+    case 3:
+        return 0;
     }
     return 0;
 }
 
 // Fungsi Menamapilkan Total nominal
-// Arg  : string total -> total yan ingin ditampilkan (pemasukan/pengeluaran)
+// Arg  : string total -> string total yang ingin ditampilkan (pemasukan/pengeluaran)
 int totalNominal(string total)
 {
     if (total == "pemasukan")
@@ -82,31 +84,27 @@ int totalNominal(string total)
     return 0;
 }
 
-// Fungsi Rekap
+// Fungsi untuk melihat semua catatan
 void rekap()
 {
     system("cls");
-
-    cout << "------------------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << totalNominal("pemasukan") << setw(15) << " | " << setw(20) << "Total Pengeluaran : " << totalNominal("pengeluaran");
-    cout << "\n------------------------------------------------------------------\n";
-    cout << "[1]. Rincian Pemasukan" << endl;
-    cout << "[2]. Rincian Pengeluaran" << endl;
-    cout << "[3]. Kembali" << endl;
-
-    cout << "Pilih : ";
+    Menu menu;
     int input;
-    cin >> input;
-    if (input == 1)
+    set_xy(21, 10);
+    set_color(0, 10);
+    cout << "Pemasukan: " << totalNominal("pemasukan") << " | Pengeluaran: " << totalNominal("pengeluaran") << endl;
+    menu.set_xy(21, 12);
+    menu.set_color(menu.GREEN);
+    input = menu.Gmenu("Rincian Pemasukan", "Rincian Pengeluaran", "Kembali");
+    switch (input)
     {
+    case 0:
         detailPemasukan();
-    }
-    if (input == 2)
-    {
+        break;
+    case 1:
         detailPengeluaran();
-    }
-    if (input == 3)
-    {
+        break;
+    case 2:
         main();
     }
 }
