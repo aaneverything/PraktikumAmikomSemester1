@@ -1,7 +1,7 @@
 #include "menu.cpp"
 #include "cursorx.h"
+
 void ulang(string menu, string atr);
-void catatan();
 void rekap();
 void tambahPengeluaran();
 void tambahPemasukan();
@@ -14,6 +14,7 @@ string randomQuote();
 string date();
 int totalNominal(string total);
 void searchKategori(string str);
+
 struct DataPengeluaran
 {
     string nama;
@@ -38,7 +39,7 @@ int main()
     int input;
     menu.set_xy(21, 12);
     menu.set_color(menu.RED);
-    input = menu.Gmenu("Liat Catatan", "Tambah Pemasukan", "Tambah Pengeluaran");
+    input = menu.Gmenu("Liat Catatan Keuangan", "Tambah Pemasukan", "Tambah Pengeluaran", "Keluar");
     switch (input)
     {
     case 0:
@@ -49,39 +50,8 @@ int main()
         break;
     case 2:
         tambahPengeluaran();
-    default:
-        cout << "Menu tidak ada";
     }
     return 0;
-}
-
-// Fungsi Tambah Catatan
-void catatan()
-{
-    system("cls");
-    int input;
-    cout << "[1]. Pemasukan" << endl;
-    cout << "[2]. Pengeluaran" << endl;
-    cout << "[3]. Kembali ke menu" << endl;
-    cout << "[4]. Keluar Program" << endl;
-    cout << "Pilih : ";
-    cin >> input;
-    switch (input)
-    {
-    case 1:
-        tambahPemasukan();
-        break;
-    case 2:
-        tambahPengeluaran();
-        break;
-    case 3:
-        main();
-        break;
-    case 4:
-        break;
-    default:
-        break;
-    }
 }
 
 // Fungsi Menamapilkan Total nominal
@@ -182,14 +152,14 @@ void tambahPemasukan()
 {
     system("cls");
     cout << "Nominal: ";
-    string nominal;
-    cin >> nominal;
+    string nominal, kategori;
+    cin.ignore();
+    getline(cin, nominal);
     cout << "Sumber Dana: " << endl;
     cout << "[1]. Pekerjaan" << endl;
     cout << "[2]. Investasi" << endl;
     cout << "Pilih : ";
-    string kategori;
-    cin >> kategori;
+    getline(cin, kategori);
     if (kategori == "1")
     {
         kategori = "Pekerjaan";
@@ -205,16 +175,17 @@ void tambahPemasukan()
 void tambahPengeluaran()
 {
     system("cls");
-    cout << "Nama    : ";
-    string nama;
-    cin >> nama;
+    string nama, kategori, harga;
+    cout << "Nama : ";
+    cin.ignore();
+
+    getline(cin, nama);
     cout << "Kategori: " << endl;
     cout << "[1]. Makanan" << endl;
     cout << "[2]. Pakaian" << endl;
     cout << "[3]. Lainnya" << endl;
     cout << "Pilih : ";
-    string kategori;
-    cin >> kategori;
+    getline(cin, kategori);
     if (kategori == "1")
     {
         kategori = "Makanan";
@@ -228,8 +199,7 @@ void tambahPengeluaran()
         kategori = "Lain-Lain";
     }
     cout << "Harga : ";
-    string harga;
-    cin >> harga;
+    getline(cin, harga);
     savePengeluaran(nama, kategori, harga, date());
 }
 
@@ -244,6 +214,7 @@ void savePemasukan(string nominal, string kategori, string date)
     Sleep(3000);
     cout << "sukses disimpan";
     ulang("pemasukan", "Ulang?(y/n) : ");
+    return;
 }
 
 // Fungsi Save Pengeluaran
@@ -256,6 +227,7 @@ void savePengeluaran(string nama, string kategori, string harga, string date)
     // Push data ke vector
     dataOut.push_back({nama, kategori, harga, date});
     ulang("pengeluaran", "Ulang?(y/n) : ");
+    return;
 }
 
 // Fungsi Untuk Mengecek Apakah User Ingin Mengulangi
@@ -305,7 +277,7 @@ void firstLogin()
         set_xy(21, 10);
         set_color(0, 12);
         cout << "Selamat Datang" << endl;
-        set_xy(21, 16);
+        set_xy(21, 17);
         cout << "Gunakan Arrow Untuk Berpindah Menu" << endl;
         first = false;
     }
@@ -315,7 +287,7 @@ void firstLogin()
         set_xy(21, 10);
         set_color(0, 12);
         cout << "Selamat Datang" << endl;
-        set_xy(21, 16);
+        set_xy(21, 17);
         cout << randomQuote() << endl;
     }
 }
@@ -324,11 +296,10 @@ string randomQuote()
 {
     srand(time(NULL));
     string text[4] = {
-        "Quote 1", 
-        "Quote 2", 
-        "Quote 3", 
-        "Quote 4"
-        };
+        "Quote 1",
+        "Quote 2",
+        "Quote 3",
+        "Quote 4"};
     int idx = rand() % 4;
     return text[idx];
 }

@@ -8,7 +8,8 @@
     "iomanip": "cpp",
     "iosfwd": "cpp",
     "ctime": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "*.tcc": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
