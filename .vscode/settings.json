@@ -9,7 +9,8 @@
     "iosfwd": "cpp",
     "ctime": "cpp",
     "sstream": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "xstring": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

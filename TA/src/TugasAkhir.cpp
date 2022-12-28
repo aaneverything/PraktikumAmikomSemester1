@@ -294,10 +294,10 @@ string randomQuote()
 {
     srand(time(NULL));
     string text[4] = {
-        "Quote 1",
-        "Quote 2",
-        "Quote 3",
-        "Quote 4"};
+        "Tidak menghabiskan uang adalah cara terbaik untuk menabung",
+        "Jika kamu ingin kaya, pikirkanlah menabung dan menghasilkan",
+        "Jangan pernah menghabiskan uang Anda sebelum Anda memilikinya",
+        "Dalam berhemat, kamu akan belajar untuk memprioritaskan hal yang lebih penting"};
     int idx = rand() % 4;
     return text[idx];
 }
