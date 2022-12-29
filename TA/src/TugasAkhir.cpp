@@ -39,7 +39,7 @@ int main()
     int input;
     menu.set_xy(21, 12);
     menu.set_color(menu.RED);
-    input = menu.Gmenu("Liat Catatan Keuangan", "Tambah Pemasukan", "Tambah Pengeluaran", "Keluar");
+    input = menu.Gmenu("View all records", "Add entry records", "Add expense records", "Exit");
     switch (input)
     {
     case 0:
@@ -88,14 +88,16 @@ int totalNominal(string total)
 void rekap()
 {
     system("cls");
+    set_color(0, 0);
+
     Menu menu;
     int input;
     set_xy(21, 10);
     set_color(0, 10);
-    cout << "Pemasukan: " << totalNominal("pemasukan") << " | Pengeluaran: " << totalNominal("pengeluaran") << endl;
+    cout << "Income: " << totalNominal("pemasukan") << " | Spending: " << totalNominal("pengeluaran") << endl;
     menu.set_xy(21, 12);
     menu.set_color(menu.GREEN);
-    input = menu.Gmenu("Rincian Pemasukan", "Rincian Pengeluaran", "Kembali");
+    input = menu.Gmenu("Income Details", "Spend Details", "Back");
     switch (input)
     {
     case 0:
@@ -149,24 +151,42 @@ void detailPengeluaran()
 void tambahPemasukan()
 {
     system("cls");
-    cout << "Nominal: ";
+    set_color(0, 12);
     string nominal, kategori;
+    int inputKategori;
+
+    set_xy(21, 11);
+    set_color(0, 10);
+    cout << " Nominal " << endl;
+    set_xy(21, 13);
+    set_color(10, 0);
+
     cin.ignore();
     getline(cin, nominal);
-    cout << "Sumber Dana: " << endl;
-    cout << "[1]. Pekerjaan" << endl;
-    cout << "[2]. Investasi" << endl;
-    cout << "Pilih : ";
-    getline(cin, kategori);
-    if (kategori == "1")
+
+    set_color(0, 10);
+    set_xy(35, 11);
+    cout << " Pilih Kategori " << endl;
+    Menu menu;
+    menu.clear_screen(false);
+    menu.set_xy(35, 13);
+    menu.set_color(menu.GREEN);
+    inputKategori = menu.Gmenu("Pekerjaan", "Investasi", "Nyolong");
+    switch (inputKategori)
     {
+    case 0:
         kategori = "Pekerjaan";
-    }
-    if (kategori == "2")
-    {
+        savePemasukan(nominal, kategori, date());
+        break;
+    case 1:
         kategori = "Investasi";
+        savePemasukan(nominal, kategori, date());
+        break;
+    case 2:
+        kategori = "Nyolong";
+        savePemasukan(nominal, kategori, date());
+        break;
     }
-    savePemasukan(nominal, kategori, date());
 }
 
 // Fungsi Tambah Pengeluaran
@@ -209,10 +229,42 @@ void savePemasukan(string nominal, string kategori, string date)
 {
     // Push data ke vector
     dataIn.push_back({nominal, kategori, date});
-    Sleep(3000);
-    cout << "sukses disimpan";
-    ulang("pemasukan", "Ulang?(y/n) : ");
-    return;
+    char a = 177, b = 219;
+    set_xy(21, 17);
+    set_color(10, 10);
+    for (int i = 0; i <= 30; i++)
+    {
+        cout << b;
+        for (int j = 0; j <= 2e7; j++)
+            ;
+    }
+    set_xy(57, 11);
+    set_color(0, 10);
+    cout << " Sukses disimpan " << endl;
+    // set_xy(57, 15);
+
+    int input;
+    Menu menu;
+    menu.clear_screen(false);
+    menu.set_xy(57, 13);
+    menu.set_color(menu.GREEN);
+    input = menu.Gmenu("Ulang", "Kembali");
+    switch (input)
+    {
+    case 0:
+        /* code */
+        tambahPemasukan();
+        // getch();
+        break;
+
+    case 1:
+        main();
+        // getch();
+        break;
+    }
+    // set_color(0, 0);
+    // ulang("pemasukan", "Ulang? (y/n) : ");
+    // getch();
 }
 
 // Fungsi Save Pengeluaran
@@ -222,6 +274,7 @@ void savePemasukan(string nominal, string kategori, string date)
 //          - string date -> tanggal waktu save pengeluaran
 void savePengeluaran(string nama, string kategori, string harga, string date)
 {
+
     // Push data ke vector
     dataOut.push_back({nama, kategori, harga, date});
     ulang("pengeluaran", "Ulang?(y/n) : ");
@@ -262,6 +315,7 @@ void ulang(string menu, string str)
             return;
         }
     }
+    set_color(0, 0);
 }
 
 // Fungsi Untuk Mengecek User Apakah Pertama Kali Login
@@ -274,9 +328,9 @@ void firstLogin()
         system("cls");
         set_xy(21, 10);
         set_color(0, 12);
-        cout << "Selamat Datang" << endl;
+        cout << "Welcome to Catat.in" << endl;
         set_xy(21, 17);
-        cout << "Gunakan Arrow Untuk Berpindah Menu" << endl;
+        cout << "Use the arrow keys to move through the menus." << endl;
         first = false;
     }
     else
@@ -284,7 +338,7 @@ void firstLogin()
         system("cls");
         set_xy(21, 10);
         set_color(0, 12);
-        cout << "Selamat Datang" << endl;
+        cout << "Welcome to Catat.in" << endl;
         set_xy(21, 17);
         cout << randomQuote() << endl;
     }

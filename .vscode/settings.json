@@ -10,7 +10,11 @@
     "ctime": "cpp",
     "sstream": "cpp",
     "*.tcc": "cpp",
-    "xstring": "cpp"
+    "xstring": "cpp",
+    "xutility": "cpp",
+    "xiosbase": "cpp",
+    "xlocale": "cpp",
+    "fstream": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }
