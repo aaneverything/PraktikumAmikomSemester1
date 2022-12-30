@@ -1,17 +1,22 @@
 #include "menu.cpp"
-#include "cursorx.h"
+#include "xycolor.h"
 
-void ulang(string menu, string atr);
-void rekap();
+void all();
 void firstLogin();
-void detailPemasukan();
-void detailPengeluaran();
-void tambahPengeluaran();
-void tambahPemasukan();
-void savePengeluaran(string nama, string kategori, string harga, string date);
-void savePemasukan(string nominal, string kategori, string date);
+void incomeDetail();
+void spendDetail();
+void addSpend();
+void addIncome();
+void loadingAnimation(int panjang, int x, int y, int fc, int bc);
 void searchKategori(string str);
+void ulang(string menu, string atr);
+void saveSpend(string nama, string kategori, string harga, string date);
+void saveIncome(string nominal, string kategori, string date);
+void textSuccess(int x, int y, int string);
+void ulangBaru(int x, int y, string str, int color);
+
 int totalNominal(string total);
+
 string randomQuote();
 string date();
 
@@ -43,13 +48,13 @@ int main()
     switch (input)
     {
     case 0:
-        rekap();
+        all();
         break;
     case 1:
-        tambahPemasukan();
+        addIncome();
         break;
     case 2:
-        tambahPengeluaran();
+        addSpend();
     case 3:
         return 0;
     }
@@ -85,26 +90,25 @@ int totalNominal(string total)
 }
 
 // Fungsi untuk melihat semua catatan
-void rekap()
+void all()
 {
     system("cls");
-    set_color(0, 0);
+
+    xyColor(21, 10, 0, 10);
+    cout << "Income: " << totalNominal("pemasukan") << " | Spending: " << totalNominal("pengeluaran") << endl;
 
     Menu menu;
     int input;
-    set_xy(21, 10);
-    set_color(0, 10);
-    cout << "Income: " << totalNominal("pemasukan") << " | Spending: " << totalNominal("pengeluaran") << endl;
     menu.set_xy(21, 12);
     menu.set_color(menu.GREEN);
     input = menu.Gmenu("Income Details", "Spend Details", "Back");
     switch (input)
     {
     case 0:
-        detailPemasukan();
+        incomeDetail();
         break;
     case 1:
-        detailPengeluaran();
+        spendDetail();
         break;
     case 2:
         main();
@@ -112,7 +116,7 @@ void rekap()
 }
 
 // Fungsi Menampilkan Detail Total Pemasukan
-void detailPemasukan()
+void incomeDetail()
 {
     system("cls");
     cout << "------------------------------------------------------\n";
@@ -130,7 +134,7 @@ void detailPemasukan()
 }
 
 // Fungsi Menampilakan Detail Total Pengeluaran
-void detailPengeluaran()
+void spendDetail()
 {
     system("cls");
     cout << "------------------------------------------------------\n";
@@ -148,123 +152,128 @@ void detailPengeluaran()
 }
 
 // Fungsi Tambah Pemasukan
-void tambahPemasukan()
+void addIncome()
 {
     system("cls");
-    set_color(0, 12);
     string nominal, kategori;
     int inputKategori;
 
-    set_xy(21, 11);
-    set_color(0, 10);
+    xyColor(21, 11, 0, 14);
     cout << " Nominal " << endl;
-    set_xy(21, 13);
-    set_color(10, 0);
 
-    cin.ignore();
-    getline(cin, nominal);
+    xyColor(21, 13, 14, 0);
+    cin >> nominal;
 
-    set_color(0, 10);
-    set_xy(35, 11);
+    xyColor(35, 11, 0, 14);
     cout << " Pilih Kategori " << endl;
+
     Menu menu;
     menu.clear_screen(false);
     menu.set_xy(35, 13);
-    menu.set_color(menu.GREEN);
+    menu.set_color(menu.YELLOW);
     inputKategori = menu.Gmenu("Pekerjaan", "Investasi", "Nyolong");
     switch (inputKategori)
     {
     case 0:
         kategori = "Pekerjaan";
-        savePemasukan(nominal, kategori, date());
+        saveIncome(nominal, kategori, date());
+        loadingAnimation(30, 21, 17, 14, 14);
+        textSuccess(57, 11, 14);
+        ulangBaru(57, 13, "addIncome", 14);
         break;
     case 1:
         kategori = "Investasi";
-        savePemasukan(nominal, kategori, date());
+        saveIncome(nominal, kategori, date());
+        loadingAnimation(30, 21, 17, 14, 14);
+        textSuccess(57, 11, 14);
+        ulangBaru(57, 13, "addIncome", 14);
         break;
     case 2:
         kategori = "Nyolong";
-        savePemasukan(nominal, kategori, date());
+        saveIncome(nominal, kategori, date());
+        loadingAnimation(30, 21, 17, 14, 14);
+        textSuccess(57, 11, 14);
+        ulangBaru(57, 13, "addIncome", 14);
         break;
     }
 }
 
 // Fungsi Tambah Pengeluaran
-void tambahPengeluaran()
+void addSpend()
 {
     system("cls");
     string nama, kategori, harga;
-    cout << "Nama : ";
-    cin.ignore();
+    int inputKategori;
 
+    xyColor(21, 11, 0, 10);
+    cout << " Nama " << endl;
+
+    xyColor(21, 13, 10, 0);
+    cin.ignore();
     getline(cin, nama);
-    cout << "Kategori: " << endl;
-    cout << "[1]. Makanan" << endl;
-    cout << "[2]. Pakaian" << endl;
-    cout << "[3]. Lainnya" << endl;
-    cout << "Pilih : ";
-    getline(cin, kategori);
-    if (kategori == "1")
+
+    xyColor(35, 11, 0, 10);
+    cout << " Pilih Kategori " << endl;
+
+    Menu menu;
+    menu.clear_screen(false);
+    menu.set_xy(35, 13);
+    menu.set_color(menu.GREEN);
+
+    inputKategori = menu.Gmenu("Makanan", "Pakaian", "Lainnya");
+
+    switch (inputKategori)
     {
+    case 0:
         kategori = "Makanan";
-    }
-    if (kategori == "2")
-    {
+        xyColor(60, 11, 0, 10);
+        cout << " Harga " << endl;
+
+        xyColor(60, 13, 10, 0);
+        getline(cin, harga);
+
+        saveSpend(nama, kategori, harga, date());
+        loadingAnimation(45, 21, 17, 10, 10);
+        textSuccess(75, 11, 10);
+        ulangBaru(75, 13, "addSpend", 10);
+        break;
+    case 1:
         kategori = "Pakaian";
+        xyColor(60, 11, 0, 10);
+        cout << " Harga " << endl;
+
+        xyColor(60, 13, 10, 0);
+        getline(cin, harga);
+
+        saveSpend(nama, kategori, harga, date());
+        loadingAnimation(45, 21, 17, 10, 10);
+        textSuccess(75, 11, 10);
+        ulangBaru(75, 13, "addSpend", 10);
+        break;
+    case 2:
+        kategori = "Lainnya";
+        xyColor(60, 11, 0, 10);
+        cout << " Harga " << endl;
+
+        xyColor(60, 13, 10, 0);
+        getline(cin, harga);
+
+        saveSpend(nama, kategori, harga, date());
+        loadingAnimation(45, 21, 17, 10, 10);
+        textSuccess(75, 11, 10);
+        ulangBaru(75, 13, "addSpend", 10);
+        break;
     }
-    if (kategori == "3")
-    {
-        kategori = "Lain-Lain";
-    }
-    cout << "Harga : ";
-    getline(cin, harga);
-    savePengeluaran(nama, kategori, harga, date());
 }
 
 // Fungsi Save Pemasukan
 // Arg  :   - string nominal -> jumlah jumlah nominal pemasukan
 //          - string kategori -> kategori pemasukan
 //          - string date -> tanggal waktu save pemasukan
-void savePemasukan(string nominal, string kategori, string date)
+void saveIncome(string nominal, string kategori, string date)
 {
     // Push data ke vector
     dataIn.push_back({nominal, kategori, date});
-    char a = 177, b = 219;
-    set_xy(21, 17);
-    set_color(10, 10);
-    for (int i = 0; i <= 30; i++)
-    {
-        cout << b;
-        for (int j = 0; j <= 2e7; j++)
-            ;
-    }
-    set_xy(57, 11);
-    set_color(0, 10);
-    cout << " Sukses disimpan " << endl;
-    // set_xy(57, 15);
-
-    int input;
-    Menu menu;
-    menu.clear_screen(false);
-    menu.set_xy(57, 13);
-    menu.set_color(menu.GREEN);
-    input = menu.Gmenu("Ulang", "Kembali");
-    switch (input)
-    {
-    case 0:
-        /* code */
-        tambahPemasukan();
-        // getch();
-        break;
-
-    case 1:
-        main();
-        // getch();
-        break;
-    }
-    // set_color(0, 0);
-    // ulang("pemasukan", "Ulang? (y/n) : ");
-    // getch();
 }
 
 // Fungsi Save Pengeluaran
@@ -272,13 +281,10 @@ void savePemasukan(string nominal, string kategori, string date)
 //          - string kategori -> kategori pengeluaran
 //          - string harga -> nominal pengeluaran
 //          - string date -> tanggal waktu save pengeluaran
-void savePengeluaran(string nama, string kategori, string harga, string date)
+void saveSpend(string nama, string kategori, string harga, string date)
 {
-
     // Push data ke vector
     dataOut.push_back({nama, kategori, harga, date});
-    ulang("pengeluaran", "Ulang?(y/n) : ");
-    return;
 }
 
 // Fungsi Untuk Mengecek Apakah User Ingin Mengulangi
@@ -293,11 +299,11 @@ void ulang(string menu, string str)
     {
         if (menu == "pengeluaran")
         {
-            tambahPengeluaran();
+            addSpend();
         }
         if (menu == "pemasukan")
         {
-            tambahPemasukan();
+            addIncome();
         }
         if (menu == "main")
         {
@@ -315,7 +321,6 @@ void ulang(string menu, string str)
             return;
         }
     }
-    set_color(0, 0);
 }
 
 // Fungsi Untuk Mengecek User Apakah Pertama Kali Login
@@ -326,20 +331,18 @@ void firstLogin()
     if (first == true)
     {
         system("cls");
-        set_xy(21, 10);
-        set_color(0, 12);
+        xyColor(21, 10, 0, 12);
         cout << "Welcome to Catat.in" << endl;
-        set_xy(21, 17);
+        xyColor(21, 17, 0, 12);
         cout << "Use the arrow keys to move through the menus." << endl;
         first = false;
     }
     else
     {
         system("cls");
-        set_xy(21, 10);
-        set_color(0, 12);
+        xyColor(21, 10, 0, 12);
         cout << "Welcome to Catat.in" << endl;
-        set_xy(21, 17);
+        xyColor(21, 17, 0, 12);
         cout << randomQuote() << endl;
     }
 }
@@ -395,5 +398,71 @@ void searchKategori(string str)
                 cout << dataOut[i].date << endl;
             }
         }
+    }
+}
+
+void loadingAnimation(int panjang, int x, int y, int fc, int bc)
+{
+    char a = 177, b = 219;
+    // xyColor(21, 17, 10, 10);
+    xyColor(x, y, fc, bc);
+    for (int i = 0; i <= panjang; i++)
+    {
+        cout << b;
+        for (int j = 0; j <= 2e7; j++)
+            ;
+    }
+}
+
+// Fungsi untuk mmenampilkan keterangan sukses
+// Arg : int x -> posisi x
+//       int y -> posisi y
+//       int color -> untuk merubah warna text (12 = red; 10 = green; 11 = turquoise; 14 = yellow; 13 = purle)
+void textSuccess(int x, int y, int color)
+{
+    xyColor(x, y, 0, color);
+    cout << " Sukses disimpan " << endl;
+}
+
+// Fungsi untuk menapilkan piliha ulang
+// Arg : int x -> posisi x
+//       int y -> posisi y
+//       string str -> untuk pindah kemenu mana apa bila user konfirmasi ulang (addIncome/addSpend)
+//       int color -> untuk merubah warna text (12 = red; 10 = green; 11 = turquoise; 14 = yellow; 13 = purle)
+void ulangBaru(int x, int y, string str, int color)
+{
+    int input;
+    Menu menu;
+    menu.clear_screen(false);
+    menu.set_xy(x, y);
+    menu.set_color(menu.GREEN);
+    if (color == 12)
+        menu.set_color(menu.RED);
+    if (color == 10)
+        menu.set_color(menu.GREEN);
+    if (color == 11)
+        menu.set_color(menu.TURQUOISE);
+    if (color == 14)
+        menu.set_color(menu.YELLOW);
+    if (color == 13)
+        menu.set_color(menu.PURPLE);
+    input = menu.Gmenu("Ulang", "Kembali");
+    switch (input)
+    {
+    case 0:
+        if (str == "addIncome")
+        {
+            addIncome();
+            break;
+        }
+        if (str == "addSpend")
+        {
+            addSpend();
+            break;
+        }
+
+    case 1:
+        main();
+        break;
     }
 }
