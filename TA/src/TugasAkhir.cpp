@@ -14,6 +14,7 @@ void saveSpend(string nama, string kategori, string harga, string date);
 void saveIncome(string nominal, string kategori, string date);
 void textSuccess(int x, int y, int string);
 void ulangBaru(int x, int y, string str, int color);
+void loadData();
 
 int totalNominal(string total);
 
@@ -39,6 +40,7 @@ vector<DataPemasukan> dataIn;
 // Fungsi Utama
 int main()
 {
+
     Menu menu;
     firstLogin();
     int input;
@@ -273,7 +275,23 @@ void addSpend()
 void saveIncome(string nominal, string kategori, string date)
 {
     // Push data ke vector
-    dataIn.push_back({nominal, kategori, date});
+    // string nominal, kategori, tanggal;
+    DataPemasukan temp;
+    temp.nominal = nominal;
+    temp.kategori = kategori;
+    temp.date = date;
+    dataIn.push_back(temp);
+    //
+    // dataIn.push_back({nominal, kategori, date});
+    std::ofstream out("data.txt");
+    for (auto in : dataIn)
+    {
+        out << in.nominal << ' ';
+        out << in.kategori << ' ';
+        out << in.date << ' ';
+        out << '\n';
+    }
+    out.close();
 }
 
 // Fungsi Save Pengeluaran
@@ -336,6 +354,7 @@ void firstLogin()
         xyColor(21, 17, 0, 12);
         cout << "Use the arrow keys to move through the menus." << endl;
         first = false;
+        loadData();
     }
     else
     {
@@ -363,7 +382,7 @@ string date()
 {
     time_t ttime = time(0);
     tm *local_time = localtime(&ttime);
-    string date = to_string(local_time->tm_hour) + ":" + to_string(local_time->tm_min) + " " + to_string(local_time->tm_mday) + "-" + to_string(1 + local_time->tm_mon) + "-" + to_string(1900 + local_time->tm_year);
+    string date = to_string(local_time->tm_hour) + ":" + to_string(local_time->tm_min) + "-" + to_string(local_time->tm_mday) + "-" + to_string(1 + local_time->tm_mon) + "-" + to_string(1900 + local_time->tm_year);
     return date;
 }
 
@@ -465,4 +484,19 @@ void ulangBaru(int x, int y, string str, int color)
         main();
         break;
     }
+}
+
+void loadData()
+{
+    ifstream file("data.txt");
+    string nominal, kategori, tanggal;
+    while (file >> nominal >> kategori >> tanggal)
+    {
+        DataPemasukan temp;
+        temp.nominal = nominal;
+        temp.kategori = kategori;
+        temp.date = tanggal;
+        dataIn.push_back(temp);
+    }
+    file.close();
 }
