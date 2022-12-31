@@ -14,7 +14,8 @@ void saveSpend(string nama, string kategori, string harga, string date);
 void saveIncome(string nominal, string kategori, string date);
 void textSuccess(int x, int y, int string);
 void ulangBaru(int x, int y, string str, int color);
-void loadData();
+void loadDataIncome();
+void loadDataSpend();
 
 int totalNominal(string total);
 
@@ -67,9 +68,9 @@ int main()
 // Arg  : string total -> string total yang ingin ditampilkan (pemasukan/pengeluaran)
 int totalNominal(string total)
 {
+    int nominal = 0;
     if (total == "pemasukan")
     {
-        int nominal = 0;
         for (auto in : dataIn)
         {
 
@@ -80,7 +81,6 @@ int totalNominal(string total)
     }
     else if (total == "pengeluaran")
     {
-        int nominal = 0;
         for (auto out : dataOut)
         {
             int harga = stoi(out.harga);
@@ -121,18 +121,29 @@ void all()
 void incomeDetail()
 {
     system("cls");
-    cout << "------------------------------------------------------\n";
-    cout << setw(20) << "Total Pemasukan : " << totalNominal("pemasukan");
-    cout << "\n------------------------------------------------------\n";
+    // xyColor(10, 0, 7, 0);
+    // cout << "--------------------------------------------------" << endl;
+    xyColor(25, 1, 7, 12);
+    cout << "Total Pemasukan " << totalNominal("pemasukan") << endl;
+
+    xyColor(10, 3, 7, 0);
+    cout << "---------------------------------------------------------" << endl;
+    cout << setw(17) << "Nominal" << setw(25) << "Kategori" << setw(25) << "tanggal" << endl;
+
+    xyColor(10, 5, 7, 0);
+    cout << "---------------------------------------------------------" << endl;
     for (auto in : dataIn)
     {
-        cout << setw(14) << in.nominal;
+        cout << setw(17) << in.nominal;
         cout << setw(25) << in.kategori;
-        cout << setw(30) << in.date;
+        cout << setw(25) << in.date;
 
         cout << endl;
     }
-    ulang("main", "Kembali ke menu? (y/n): ");
+
+    xyColor(80, 4, 7, 0);
+    ulangBaru(80, 4, "all", 7);
+    // ulang("main", "Kembali ke menu? (y/n): ");
 }
 
 // Fungsi Menampilakan Detail Total Pengeluaran
@@ -178,26 +189,18 @@ void addIncome()
     {
     case 0:
         kategori = "Pekerjaan";
-        saveIncome(nominal, kategori, date());
-        loadingAnimation(30, 21, 17, 14, 14);
-        textSuccess(57, 11, 14);
-        ulangBaru(57, 13, "addIncome", 14);
         break;
     case 1:
         kategori = "Investasi";
-        saveIncome(nominal, kategori, date());
-        loadingAnimation(30, 21, 17, 14, 14);
-        textSuccess(57, 11, 14);
-        ulangBaru(57, 13, "addIncome", 14);
         break;
     case 2:
         kategori = "Nyolong";
-        saveIncome(nominal, kategori, date());
-        loadingAnimation(30, 21, 17, 14, 14);
-        textSuccess(57, 11, 14);
-        ulangBaru(57, 13, "addIncome", 14);
         break;
     }
+    saveIncome(nominal, kategori, date());
+    loadingAnimation(30, 21, 17, 14, 14);
+    textSuccess(57, 11, 14);
+    ulangBaru(57, 13, "addIncome", 14);
 }
 
 // Fungsi Tambah Pengeluaran
@@ -211,8 +214,9 @@ void addSpend()
     cout << " Nama " << endl;
 
     xyColor(21, 13, 10, 0);
-    cin.ignore();
-    getline(cin, nama);
+    // cin.ignore();
+    // getline(cin, nama);
+    cin >> nama;
 
     xyColor(35, 11, 0, 10);
     cout << " Pilih Kategori " << endl;
@@ -228,44 +232,24 @@ void addSpend()
     {
     case 0:
         kategori = "Makanan";
-        xyColor(60, 11, 0, 10);
-        cout << " Harga " << endl;
-
-        xyColor(60, 13, 10, 0);
-        getline(cin, harga);
-
-        saveSpend(nama, kategori, harga, date());
-        loadingAnimation(45, 21, 17, 10, 10);
-        textSuccess(75, 11, 10);
-        ulangBaru(75, 13, "addSpend", 10);
         break;
     case 1:
         kategori = "Pakaian";
-        xyColor(60, 11, 0, 10);
-        cout << " Harga " << endl;
-
-        xyColor(60, 13, 10, 0);
-        getline(cin, harga);
-
-        saveSpend(nama, kategori, harga, date());
-        loadingAnimation(45, 21, 17, 10, 10);
-        textSuccess(75, 11, 10);
-        ulangBaru(75, 13, "addSpend", 10);
         break;
     case 2:
         kategori = "Lainnya";
-        xyColor(60, 11, 0, 10);
-        cout << " Harga " << endl;
-
-        xyColor(60, 13, 10, 0);
-        getline(cin, harga);
-
-        saveSpend(nama, kategori, harga, date());
-        loadingAnimation(45, 21, 17, 10, 10);
-        textSuccess(75, 11, 10);
-        ulangBaru(75, 13, "addSpend", 10);
         break;
     }
+    xyColor(60, 11, 0, 10);
+    cout << " Harga " << endl;
+
+    xyColor(60, 13, 10, 0);
+    cin >> harga;
+
+    saveSpend(nama, kategori, harga, date());
+    loadingAnimation(45, 21, 17, 10, 10);
+    textSuccess(75, 11, 10);
+    ulangBaru(75, 13, "addSpend", 10);
 }
 
 // Fungsi Save Pemasukan
@@ -275,15 +259,13 @@ void addSpend()
 void saveIncome(string nominal, string kategori, string date)
 {
     // Push data ke vector
-    // string nominal, kategori, tanggal;
     DataPemasukan temp;
     temp.nominal = nominal;
     temp.kategori = kategori;
     temp.date = date;
     dataIn.push_back(temp);
-    //
-    // dataIn.push_back({nominal, kategori, date});
-    std::ofstream out("data.txt");
+
+    ofstream out("dataIncome.txt");
     for (auto in : dataIn)
     {
         out << in.nominal << ' ';
@@ -303,6 +285,16 @@ void saveSpend(string nama, string kategori, string harga, string date)
 {
     // Push data ke vector
     dataOut.push_back({nama, kategori, harga, date});
+    ofstream out("dataSpend.txt");
+    for (auto dataOut : dataOut)
+    {
+        out << dataOut.nama << ' ';
+        out << dataOut.kategori << ' ';
+        out << dataOut.harga << ' ';
+        out << dataOut.date << ' ';
+        out << '\n';
+    }
+    out.close();
 }
 
 // Fungsi Untuk Mengecek Apakah User Ingin Mengulangi
@@ -354,7 +346,8 @@ void firstLogin()
         xyColor(21, 17, 0, 12);
         cout << "Use the arrow keys to move through the menus." << endl;
         first = false;
-        loadData();
+        loadDataIncome();
+        loadDataSpend();
     }
     else
     {
@@ -423,7 +416,6 @@ void searchKategori(string str)
 void loadingAnimation(int panjang, int x, int y, int fc, int bc)
 {
     char a = 177, b = 219;
-    // xyColor(21, 17, 10, 10);
     xyColor(x, y, fc, bc);
     for (int i = 0; i <= panjang; i++)
     {
@@ -479,6 +471,11 @@ void ulangBaru(int x, int y, string str, int color)
             addSpend();
             break;
         }
+        if (str == "all")
+        {
+            all();
+            break;
+        }
 
     case 1:
         main();
@@ -486,9 +483,18 @@ void ulangBaru(int x, int y, string str, int color)
     }
 }
 
-void loadData()
+// fungsi untuk membuka file dataIncome.txt yang kemudian akan dimasukan data tersebut ke dalam vector.
+// fungsi ini menggunakan liblary fstream.
+void loadDataIncome()
 {
-    ifstream file("data.txt");
+    // membuka file dataIncome.txt
+    ifstream file("dataIncome.txt");
+    // apabila file belum ada makan akan dibuat file tersebut
+    if (!file)
+    {
+        ofstream outfile("dataIncome.txt");
+        outfile.close();
+    }
     string nominal, kategori, tanggal;
     while (file >> nominal >> kategori >> tanggal)
     {
@@ -497,6 +503,31 @@ void loadData()
         temp.kategori = kategori;
         temp.date = tanggal;
         dataIn.push_back(temp);
+    }
+    file.close();
+}
+
+// fungsi untuk membuka file dataOut.txt yang kemudian akan dimasukan data tersebut ke dalam vector.
+// fungsi ini menggunakan liblary fstream.
+void loadDataSpend()
+{
+    // membuka file dataSpend.txt
+    ifstream file("dataSpend.txt");
+    // apabila file belum ada makan akan dibuat file tersebut
+    if (!file)
+    {
+        ofstream outfile("dataSpend.txt");
+        outfile.close();
+    }
+    string nama, kategori, harga, date;
+    while (file >> nama >> kategori >> harga >> date)
+    {
+        DataPengeluaran temp;
+        temp.nama = nama;
+        temp.kategori = kategori;
+        temp.harga = harga;
+        temp.date = date;
+        dataOut.push_back(temp);
     }
     file.close();
 }
