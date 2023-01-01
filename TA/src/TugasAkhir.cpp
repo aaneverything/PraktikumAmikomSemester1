@@ -3,7 +3,7 @@
 
 void all();
 void firstLogin();
-void incomeDetail();
+void incomeDetail(string kategori);
 void spendDetail();
 void addSpend();
 void addIncome();
@@ -16,6 +16,9 @@ void textSuccess(int x, int y, int string);
 void ulangBaru(int x, int y, string str, int color);
 void loadDataIncome();
 void loadDataSpend();
+void getDataIncome(string category);
+void listCategory();
+void removeData();
 
 int totalNominal(string total);
 
@@ -95,7 +98,6 @@ int totalNominal(string total)
 void all()
 {
     system("cls");
-
     xyColor(21, 10, 0, 10);
     cout << "Income: " << totalNominal("pemasukan") << " | Spending: " << totalNominal("pengeluaran") << endl;
 
@@ -103,28 +105,28 @@ void all()
     int input;
     menu.set_xy(21, 12);
     menu.set_color(menu.GREEN);
-    input = menu.Gmenu("Income Details", "Spend Details", "Back");
+    input = menu.Gmenu("Income Details", "Spend Details", "Remove Data", "Back");
     switch (input)
     {
     case 0:
-        incomeDetail();
+        incomeDetail("viewAll");
         break;
     case 1:
         spendDetail();
         break;
     case 2:
+        removeData();
+    case 3:
         main();
     }
 }
-
-// Fungsi Menampilkan Detail Total Pemasukan
-void incomeDetail()
+// fungsi untuk menampilakan detail dari pemasukan
+// arg  : string kategori -> untuk menampilkan data lebih spesifik berdasarkan kategori
+void incomeDetail(string kategori)
 {
     system("cls");
-    // xyColor(10, 0, 7, 0);
-    // cout << "--------------------------------------------------" << endl;
     xyColor(25, 1, 7, 12);
-    cout << "Total Pemasukan " << totalNominal("pemasukan") << endl;
+    cout << " Total Pemasukan Rp." << totalNominal("pemasukan") << " " << endl;
 
     xyColor(10, 3, 7, 0);
     cout << "---------------------------------------------------------" << endl;
@@ -132,20 +134,115 @@ void incomeDetail()
 
     xyColor(10, 5, 7, 0);
     cout << "---------------------------------------------------------" << endl;
-    for (auto in : dataIn)
+
+    if (kategori == "viewAll")
     {
-        cout << setw(17) << in.nominal;
-        cout << setw(25) << in.kategori;
-        cout << setw(25) << in.date;
-
-        cout << endl;
+        xyColor(80, 4, 7, 12);
+        cout << " Menu " << endl;
+        int input;
+        Menu menu;
+        menu.clear_screen(false);
+        menu.set_xy(80, 6);
+        menu.set_color(menu.RED);
+        getDataIncome("all");
+        input = menu.Gmenu("Cari berdasarkan kategori", "Kembali");
+        switch (input)
+        {
+        case 0:
+            cout << "Cari berdasarkan Kategori" << endl;
+            incomeDetail("category");
+            break;
+        case 1:
+            all();
+            break;
+        }
     }
-
-    xyColor(80, 4, 7, 0);
-    ulangBaru(80, 4, "all", 7);
-    // ulang("main", "Kembali ke menu? (y/n): ");
+    if (kategori == "category")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getDataIncome("all");
+        listCategory();
+    }
+    if (kategori == "Pekerjaan")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getDataIncome("Pekerjaan");
+        listCategory();
+    }
+    if (kategori == "Investasi")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getDataIncome("Investasi");
+        listCategory();
+    }
+    if (kategori == "Nyolong")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getDataIncome("Nyolong");
+        listCategory();
+    }
 }
 
+void listCategory()
+{
+    int input;
+    Menu menu;
+    menu.clear_screen(false);
+    menu.set_xy(80, 6);
+    menu.set_color(menu.RED);
+    input = menu.Gmenu("Pekerjaan", "Investasi", "Nyolong", "Back");
+    switch (input)
+    {
+    case 0:
+        incomeDetail("Pekerjaan");
+        break;
+    case 1:
+        incomeDetail("Investasi");
+        break;
+    case 2:
+        incomeDetail("Nyolong");
+        break;
+    case 3:
+        incomeDetail("viewAll");
+        break;
+    }
+}
+
+// fungsi untuk menampilkan data income
+// arg  : string category -> menampilakan data bedasarkan kategori yang dipilih
+void getDataIncome(string category)
+{
+    if (category == "all")
+    {
+        xyColor(0, 6, 7, 0);
+        for (int i = 0; i < dataIn.size(); i++)
+        {
+
+            cout << setw(17) << dataIn[i].nominal;
+            cout << setw(25) << dataIn[i].kategori;
+            cout << setw(25) << dataIn[i].date;
+            cout << endl;
+        }
+    }
+    else
+    {
+        xyColor(0, 6, 7, 0);
+        for (int i = 0; i < dataIn.size(); i++)
+        {
+            if (category == dataIn[i].kategori)
+            {
+                cout << setw(17) << dataIn[i].nominal;
+                cout << setw(25) << dataIn[i].kategori;
+                cout << setw(25) << dataIn[i].date;
+                cout << endl;
+            }
+        }
+    }
+}
 // Fungsi Menampilakan Detail Total Pengeluaran
 void spendDetail()
 {
@@ -530,4 +627,15 @@ void loadDataSpend()
         dataOut.push_back(temp);
     }
     file.close();
+}
+
+// fungsi remove data untuk menghapus file dataIncome.txt, dataSpend.txt dan data vector yang kemudian di regenerate berupa data kosong
+void removeData()
+{
+    remove("dataIncome.txt");
+    remove("dataSpend.txt");
+    dataIn.clear();
+    dataOut.clear();
+    loadDataIncome();
+    loadDataSpend();
 }

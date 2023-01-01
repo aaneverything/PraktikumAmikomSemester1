@@ -16,7 +16,11 @@
     "xlocale": "cpp",
     "fstream": "cpp",
     "istream": "cpp",
-    "algorithm": "cpp"
+    "algorithm": "cpp",
+    "atomic": "cpp",
+    "ios": "cpp",
+    "system_error": "cpp",
+    "xmemory": "cpp"
   },
   "C_Cpp.errorSquiggles": "Disabled"
 }

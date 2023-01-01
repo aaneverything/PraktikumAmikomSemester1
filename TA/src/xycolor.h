@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-// fungsi: set_xy()
+// fungsi: xyColor()
 // Meletakkan kursor pada posisi x, y di layar konsol dan memberikan warna.
 // tipe: void
 // arg.: SHORT x - posisi x
@@ -12,6 +12,5 @@ void xyColor(SHORT x, SHORT y, WORD fc, WORD bc)
 {
     HANDLE hwnd = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleCursorPosition(hwnd, {x, y});
-    // HANDLE hwnd1 = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hwnd, fc + (bc << 4));
 }
