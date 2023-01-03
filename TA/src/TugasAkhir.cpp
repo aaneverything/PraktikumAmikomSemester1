@@ -52,7 +52,7 @@ int main()
     int input;
     menu.set_xy(21, 12);
     menu.set_color(menu.RED);
-    input = menu.Gmenu("View all records", "Add entry records", "Add expense records", "Exit");
+    input = menu.Gmenu("Lihat Semua Catatan", "Tambah Catatan Pemasukan", "Tambah Catatan Pengeluaran", "Keluar");
     switch (input)
     {
     case 0:
@@ -166,13 +166,6 @@ void incomeDetail(string kategori)
         getData("income", "all");
         categoryIncome();
     }
-    if (kategori == "Pekerjaan")
-    {
-        xyColor(80, 4, 7, 12);
-        cout << " Kategori " << endl;
-        getData("income", "Pekerjaan");
-        categoryIncome();
-    }
     if (kategori == "Investasi")
     {
         xyColor(80, 4, 7, 12);
@@ -180,11 +173,39 @@ void incomeDetail(string kategori)
         getData("income", "Investasi");
         categoryIncome();
     }
-    if (kategori == "Nyolong")
+    if (kategori == "Sumbangan")
     {
         xyColor(80, 4, 7, 12);
         cout << " Kategori " << endl;
-        getData("income", "Nyolong");
+        getData("income", "Sumbangan");
+        categoryIncome();
+    }
+    if (kategori == "Upah")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("income", "Upah");
+        categoryIncome();
+    }
+    if (kategori == "Penjualan")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("income", "Penjualan");
+        categoryIncome();
+    }
+    if (kategori == "Bonus")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("income", "Bonus");
+        categoryIncome();
+    }
+    if (kategori == "Lainnya")
+    {
+        xyColor(80, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("income", "Lainnya");
         categoryIncome();
     }
 }
@@ -231,11 +252,25 @@ void spendDetail(string kategori)
         getData("spend", "all");
         categorySpend();
     }
-    if (kategori == "Makan")
+    if (kategori == "Transportasi")
     {
         xyColor(90, 4, 7, 12);
         cout << " Kategori " << endl;
-        getData("spend", "Makan");
+        getData("spend", "Transportasi");
+        categorySpend();
+    }
+    if (kategori == "Tagihan")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Tagihan");
+        categorySpend();
+    }
+    if (kategori == "Liburan")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Liburan");
         categorySpend();
     }
     if (kategori == "Pakaian")
@@ -243,6 +278,34 @@ void spendDetail(string kategori)
         xyColor(90, 4, 7, 12);
         cout << " Kategori " << endl;
         getData("spend", "Pakaian");
+        categorySpend();
+    }
+    if (kategori == "Pajak")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Pajak");
+        categorySpend();
+    }
+    if (kategori == "Pendidikan")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Pendidikan");
+        categorySpend();
+    }
+    if (kategori == "Kesehatan")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Kesehatan");
+        categorySpend();
+    }
+    if (kategori == "Konsumsi")
+    {
+        xyColor(90, 4, 7, 12);
+        cout << " Kategori " << endl;
+        getData("spend", "Konsumsi");
         categorySpend();
     }
     if (kategori == "Lainnya")
@@ -261,19 +324,28 @@ void categoryIncome()
     menu.clear_screen(false);
     menu.set_xy(80, 6);
     menu.set_color(menu.RED);
-    input = menu.Gmenu("Pekerjaan", "Investasi", "Nyolong", "Back");
+    input = menu.Gmenu("Investasi", "Sumbangan", "Upah", "Penjualan", "Bonus", "Lainnya", "Kembali");
     switch (input)
     {
     case 0:
-        incomeDetail("Pekerjaan");
-        break;
-    case 1:
         incomeDetail("Investasi");
         break;
+    case 1:
+        incomeDetail("Sumbangan");
+        break;
     case 2:
-        incomeDetail("Nyolong");
+        incomeDetail("Upah");
         break;
     case 3:
+        incomeDetail("Penjualan");
+        break;
+    case 4:
+        incomeDetail("Bonus");
+        break;
+    case 5:
+        incomeDetail("Lainnya");
+        break;
+    case 6:
         incomeDetail("viewAll");
         break;
     }
@@ -286,19 +358,37 @@ void categorySpend()
     menu.clear_screen(false);
     menu.set_xy(90, 6);
     menu.set_color(menu.RED);
-    input = menu.Gmenu("Makan", "Pakaian", "Lainnya", "Back");
+    input = menu.Gmenu("Transportasi", "Tagihan", "Liburan", "Pakaian", "Pajak", "Pendidikan", "Kesehatan", "Konsumsi", "Lainnya", "Kembali");
     switch (input)
     {
     case 0:
-        spendDetail("Makan");
+        spendDetail("Transportasi");
         break;
     case 1:
-        spendDetail("Pakaian");
+        spendDetail("Tagihan");
         break;
     case 2:
-        spendDetail("Lainnya");
+        spendDetail("Liburan");
         break;
     case 3:
+        spendDetail("Pakaian");
+        break;
+    case 4:
+        spendDetail("Pajak");
+        break;
+    case 5:
+        spendDetail("Pendidikan");
+        break;
+    case 6:
+        spendDetail("Kesehatan");
+        break;
+    case 7:
+        spendDetail("Konsumsi");
+        break;
+    case 8:
+        spendDetail("Lainnya");
+        break;
+    case 9:
         spendDetail("viewAll");
         break;
     }
@@ -380,21 +470,30 @@ void addIncome()
     menu.clear_screen(false);
     menu.set_xy(35, 13);
     menu.set_color(menu.YELLOW);
-    inputKategori = menu.Gmenu("Pekerjaan", "Investasi", "Nyolong");
+    inputKategori = menu.Gmenu("Investasi", "Sumbangan", "Upah", "Penjualan", "Bonus", "Lainnya");
     switch (inputKategori)
     {
     case 0:
-        kategori = "Pekerjaan";
-        break;
-    case 1:
         kategori = "Investasi";
         break;
+    case 1:
+        kategori = "Sumbangan";
+        break;
     case 2:
-        kategori = "Nyolong";
+        kategori = "Upah";
+        break;
+    case 3:
+        kategori = "Penjualan";
+        break;
+    case 4:
+        kategori = "Bonus";
+        break;
+    case 5:
+        kategori = "Lainnya";
         break;
     }
     saveIncome(nominal, kategori, date());
-    loadingAnimation(30, 21, 17, 14, 14);
+    loadingAnimation(30, 21, 20, 14, 14);
     textSuccess(57, 11, 14);
     ulangBaru(57, 13, "addIncome", 14);
 }
@@ -422,17 +521,35 @@ void addSpend()
     menu.set_xy(35, 13);
     menu.set_color(menu.GREEN);
 
-    inputKategori = menu.Gmenu("Makanan", "Pakaian", "Lainnya");
+    inputKategori = menu.Gmenu("Transportasi", "Tagihan", "Liburan", "Pakaian", "Pajak", "Pendidikan", "Kesehatan", "Konsumsi", "Lainnya");
 
     switch (inputKategori)
     {
     case 0:
-        kategori = "Makanan";
+        kategori = "Transportasi";
         break;
     case 1:
-        kategori = "Pakaian";
+        kategori = "Tagihan";
         break;
     case 2:
+        kategori = "Liburan";
+        break;
+    case 3:
+        kategori = "Pakaian";
+        break;
+    case 4:
+        kategori = "Pajak";
+        break;
+    case 5:
+        kategori = "Pendidikan";
+        break;
+    case 6:
+        kategori = "Kesehatan";
+        break;
+    case 7:
+        kategori = "Konsumsi";
+        break;
+    case 8:
         kategori = "Lainnya";
         break;
     }
@@ -443,7 +560,7 @@ void addSpend()
     cin >> harga;
 
     saveSpend(nama, kategori, harga, date());
-    loadingAnimation(45, 21, 17, 10, 10);
+    loadingAnimation(45, 21, 23, 10, 10);
     textSuccess(75, 11, 10);
     ulangBaru(75, 13, "addSpend", 10);
 }
@@ -538,9 +655,9 @@ void firstLogin()
     {
         system("cls");
         xyColor(21, 10, 0, 12);
-        cout << "Welcome to Catat.in" << endl;
+        cout << "Selamat Datang Di Catat.in" << endl;
         xyColor(21, 17, 0, 12);
-        cout << "Use the arrow keys to move through the menus." << endl;
+        cout << "Guanakan tombol arrow untuk berpindah menu. " << endl;
         first = false;
         loadDataIncome();
         loadDataSpend();
@@ -549,7 +666,7 @@ void firstLogin()
     {
         system("cls");
         xyColor(21, 10, 0, 12);
-        cout << "Welcome to Catat.in" << endl;
+        cout << "Menu Catat.in" << endl;
         xyColor(21, 17, 0, 12);
         cout << randomQuote() << endl;
     }
